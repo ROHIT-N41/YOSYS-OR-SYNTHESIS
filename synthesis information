@@ -1,0 +1,23 @@
+#synthesis process with example (fulladder)
+#use yosys cammand in your terminal
+yosys
+# Read the Verilog source file
+read_verilog full_adder.v
+# Set the top-level module and check hierarchy
+hierarchy -check -top full_adder
+# high level stuff
+proc; opt; memory; opt;
+# mapping to internal cell library
+techmap; opt
+# mapping logic to standard cell library
+abc -liberty osu018_stdcells.lib
+# Clean up unused cells and signals after mapping
+clean
+# Write the final synthesized gate-level netlist to a new Verilog file
+write_verilog full_adder_synth.v
+#Generate a graphical visualization of the synthesized circuit
+show
+#and exit from yosys
+exit
+#View Output File (Netlist)
+gvim full_adder_synth.v
